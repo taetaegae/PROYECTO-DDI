@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":shared"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.foundation)
@@ -44,6 +45,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.wear.compose.navigation)
     implementation(libs.androidx.wear.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.compose.ui.tooling)
