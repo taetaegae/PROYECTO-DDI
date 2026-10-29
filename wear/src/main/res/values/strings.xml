@@ -1,4 +1,17 @@
 <resources>
-    <string name="app_name">AppWear</string>
-    <string name="hello_world">Hello, %1$s!</string>
+    <string name="app_name">LevelUp</string>
+
+    <!-- Progreso del jugador -->
+    <string name="level_format">Nivel %1$d</string>
+    <string name="xp_progress_format">%1$d/%2$d XP</string>
+    <string name="player_title_novice">Novato</string>
+    <string name="player_title_adventurer">Aventurero</string>
+    <string name="player_title_veteran">Veterano</string>
+    <string name="player_title_hero">Héroe</string>
+    <string name="player_title_legend">Leyenda</string>
+
+    <!-- Misiones -->
+    <string name="action_missions">Misiones</string>
+    <string name="missions_header">Misiones de hoy</string>
+    <string name="missions_empty">Crea misiones desde el teléfono.</string>
 </resources>

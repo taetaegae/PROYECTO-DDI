@@ -1,3 +1,38 @@
 <resources>
-    <string name="app_name">AppWear</string>
+    <string name="app_name">LevelUp</string>
+
+    <!-- Navegación -->
+    <string name="nav_dashboard">Inicio</string>
+    <string name="nav_missions">Misiones</string>
+    <string name="nav_stats">Progreso</string>
+    <string name="nav_badges">Insignias</string>
+    <string name="nav_rewards">Tienda</string>
+    <string name="title_missions">Misiones</string>
+    <string name="title_mission_editor">Nueva misión</string>
+    <string name="title_stats">Estadísticas</string>
+    <string name="title_badges">Insignias</string>
+    <string name="title_rewards">Recompensas</string>
+    <string name="title_settings">Ajustes</string>
+    <string name="action_back">Volver</string>
+
+    <!-- Progreso del jugador -->
+    <string name="level_format">Nivel %1$d</string>
+    <string name="xp_progress_format">%1$d / %2$d XP</string>
+    <string name="player_title_novice">Novato</string>
+    <string name="player_title_adventurer">Aventurero</string>
+    <string name="player_title_veteran">Veterano</string>
+    <string name="player_title_hero">Héroe</string>
+    <string name="player_title_legend">Leyenda</string>
+
+    <!-- Estados vacíos -->
+    <string name="coming_soon">Próximamente</string>
+    <string name="dashboard_empty_title">Aún no tienes misiones</string>
+    <string name="dashboard_empty_message">Crea tu primera misión en la pestaña Misiones para empezar a ganar XP.</string>
+    <string name="missions_empty_title">Sin misiones</string>
+    <string name="missions_empty_message">Toca + para crear tu primera misión.</string>
+    <string name="mission_editor_placeholder">Aquí podrás crear y editar tus misiones.</string>
+    <string name="stats_placeholder">Completa misiones para ver tu progreso semanal.</string>
+    <string name="badges_placeholder">Completa misiones para desbloquear insignias.</string>
+    <string name="rewards_placeholder">Crea recompensas y canjéalas con tus monedas.</string>
+    <string name="settings_placeholder">Aquí podrás cambiar tu nombre, los recordatorios y el modo demo.</string>
 </resources>
