@@ -4,4 +4,9 @@ package com.appw.appwear.presentation.navigation
 object WearDestination {
     const val HOME = "home"
     const val MISSIONS = "missions"
+    const val ARG_MISSION_ID = "missionId"
+    const val MISSION_DETAIL = "missions/{missionId}"
+    const val MISSION_DONE = "mission_done"
+
+    fun missionDetail(missionId: String): String = "missions/$missionId"
 }

@@ -13,18 +13,22 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.appw.appwear.R
 import com.appw.appwear.ui.badges.BadgesScreen
 import com.appw.appwear.ui.dashboard.DashboardScreen
@@ -35,7 +39,6 @@ import com.appw.appwear.ui.navigation.icon
 import com.appw.appwear.ui.rewards.RewardsScreen
 import com.appw.appwear.ui.settings.SettingsScreen
 import com.appw.appwear.ui.stats.StatsScreen
-import com.appw.appwear.ui.theme.LevelUpTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,11 +46,17 @@ fun LevelUpRoot() {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val current = Destination.fromRoute(backStackEntry?.destination?.route)
+    val isEditingMission = current == Destination.MISSION_EDITOR &&
+        backStackEntry?.arguments?.getString(Destination.ARG_MISSION_ID) != null
+    val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(stringResource(current.titleRes)) },
+                title = {
+                    Text(stringResource(if (isEditingMission) R.string.title_mission_edit else current.titleRes))
+                },
                 navigationIcon = {
                     if (!current.isTopLevel) {
                         IconButton(onClick = { navController.popBackStack() }) {
@@ -87,7 +96,7 @@ fun LevelUpRoot() {
         floatingActionButton = {
             if (current == Destination.MISSIONS) {
                 FloatingActionButton(
-                    onClick = { navController.navigate(Destination.MISSION_EDITOR.route) },
+                    onClick = { navController.navigate(Destination.missionEditorRoute()) },
                 ) {
                     Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.title_mission_editor))
                 }
@@ -99,9 +108,31 @@ fun LevelUpRoot() {
             startDestination = Destination.DASHBOARD.route,
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(Destination.DASHBOARD.route) { DashboardScreen() }
-            composable(Destination.MISSIONS.route) { MissionsScreen() }
-            composable(Destination.MISSION_EDITOR.route) { MissionEditorScreen() }
+            composable(Destination.DASHBOARD.route) {
+                DashboardScreen(
+                    snackbarHostState = snackbarHostState,
+                    onCreateMission = { navController.navigate(Destination.missionEditorRoute()) },
+                )
+            }
+            composable(Destination.MISSIONS.route) {
+                MissionsScreen(
+                    onMissionClick = { missionId ->
+                        navController.navigate(Destination.missionEditorRoute(missionId))
+                    },
+                )
+            }
+            composable(
+                route = Destination.MISSION_EDITOR.route,
+                arguments = listOf(
+                    navArgument(Destination.ARG_MISSION_ID) {
+                        type = NavType.StringType
+                        nullable = true
+                        defaultValue = null
+                    },
+                ),
+            ) {
+                MissionEditorScreen(onDone = { navController.popBackStack() })
+            }
             composable(Destination.STATS.route) { StatsScreen() }
             composable(Destination.BADGES.route) { BadgesScreen() }
             composable(Destination.REWARDS.route) { RewardsScreen() }
@@ -116,13 +147,5 @@ private fun NavHostController.navigateToTopLevel(destination: Destination) {
         popUpTo(graph.findStartDestination().id) { saveState = true }
         launchSingleTop = true
         restoreState = true
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun LevelUpRootPreview() {
-    LevelUpTheme {
-        LevelUpRoot()
     }
 }

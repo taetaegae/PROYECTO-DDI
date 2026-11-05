@@ -3,7 +3,13 @@
 
     <!-- Progreso del jugador -->
     <string name="level_format">Nivel %1$d</string>
-    <string name="xp_progress_format">%1$d/%2$d XP</string>
+    <string name="level_label">NIVEL</string>
+    <string name="coins_format">%1$d monedas</string>
+    <plurals name="streak_days_format">
+        <item quantity="one">%1$d día de racha</item>
+        <item quantity="many">%1$d días de racha</item>
+        <item quantity="other">%1$d días de racha</item>
+    </plurals>
     <string name="player_title_novice">Novato</string>
     <string name="player_title_adventurer">Aventurero</string>
     <string name="player_title_veteran">Veterano</string>
@@ -14,4 +20,29 @@
     <string name="action_missions">Misiones</string>
     <string name="missions_header">Misiones de hoy</string>
     <string name="missions_empty">Crea misiones desde el teléfono.</string>
+    <string name="xp_reward_format">+%1$d XP</string>
+    <string name="mission_completed">Completada</string>
+    <string name="action_complete">Completar</string>
+    <string name="mission_not_found">Misión no encontrada</string>
+    <string name="today_progress_format">%1$d de %2$d hechas</string>
+    <string name="mission_summary_format">%1$s · %2$s</string>
+
+    <!-- Misión cumplida -->
+    <string name="mission_done_title">¡Misión cumplida!</string>
+    <string name="coins_reward_format">+%1$d monedas</string>
+    <string name="mission_done_level_up_format">¡Nivel %1$d!</string>
+    <string name="action_done">Listo</string>
+
+    <!-- Categorías, dificultades y repetición -->
+    <string name="category_study">Estudio</string>
+    <string name="category_exercise">Ejercicio</string>
+    <string name="category_habits">Hábitos</string>
+    <string name="category_creative">Creatividad</string>
+    <string name="difficulty_easy">Fácil</string>
+    <string name="difficulty_medium">Media</string>
+    <string name="difficulty_hard">Difícil</string>
+    <string name="difficulty_epic">Épica</string>
+    <string name="recurrence_once">Una vez</string>
+    <string name="recurrence_daily">Diaria</string>
+    <string name="recurrence_weekly">Semanal</string>
 </resources>

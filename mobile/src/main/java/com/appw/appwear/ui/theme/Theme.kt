@@ -19,6 +19,7 @@ private val DarkColorScheme = darkColorScheme(
     background = Night,
     surface = Night,
     surfaceContainer = NightSurface,
+    surfaceContainerLowest = NightSurface,
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -32,6 +33,9 @@ private val LightColorScheme = lightColorScheme(
     onSecondaryContainer = XpGoldDeep,
     tertiary = QuestMintDark,
     onTertiary = Color.White,
+    background = Mist,
+    surface = Mist,
+    surfaceContainerLowest = Color.White,
 )
 
 /** Tema de LevelUp. No usa colores dinámicos para conservar la identidad visual de la app. */
