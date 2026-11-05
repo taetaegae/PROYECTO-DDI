@@ -19,13 +19,12 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import com.appw.appwear.R
 import com.appw.appwear.presentation.components.labelRes
 import com.appw.appwear.presentation.theme.LevelUpTheme
-import com.appw.appwear.shared.engine.XpEngine
+import com.appw.appwear.shared.model.PlayerProfile
 
 /** R1 · Inicio: anillo de XP en el borde de la pantalla con el nivel al centro. */
 @Composable
-fun HomeScreen(onOpenMissions: () -> Unit, modifier: Modifier = Modifier) {
-    // TODO(Fase 2): leer el progreso desde la caché sincronizada con el teléfono.
-    val progress = XpEngine.progress(totalXp = 0)
+fun HomeScreen(profile: PlayerProfile, onOpenMissions: () -> Unit, modifier: Modifier = Modifier) {
+    val progress = profile.progress
 
     ScreenScaffold(modifier = modifier) { contentPadding ->
         CircularProgressIndicator(
@@ -46,7 +45,7 @@ fun HomeScreen(onOpenMissions: () -> Unit, modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.titleLarge,
             )
             Text(
-                text = stringResource(XpEngine.titleFor(progress.level).labelRes()),
+                text = stringResource(profile.title.labelRes()),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.secondary,
             )
@@ -68,6 +67,6 @@ fun HomeScreen(onOpenMissions: () -> Unit, modifier: Modifier = Modifier) {
 @Composable
 private fun HomeScreenPreview() {
     LevelUpTheme {
-        HomeScreen(onOpenMissions = {})
+        HomeScreen(profile = PlayerProfile(totalXp = 180), onOpenMissions = {})
     }
 }

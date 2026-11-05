@@ -14,4 +14,14 @@
     <string name="action_missions">Misiones</string>
     <string name="missions_header">Misiones de hoy</string>
     <string name="missions_empty">Crea misiones desde el teléfono.</string>
+    <string name="xp_reward_format">+%1$d XP</string>
+    <string name="mission_completed">Completada</string>
+    <string name="action_complete">Completar</string>
+    <string name="mission_not_found">Misión no encontrada</string>
+
+    <!-- Misión cumplida -->
+    <string name="mission_done_title">¡Misión cumplida!</string>
+    <string name="mission_done_reward_format">+%1$d XP · +%2$d monedas</string>
+    <string name="mission_done_level_up_format">¡Nivel %1$d!</string>
+    <string name="action_done">Listo</string>
 </resources>
