@@ -109,7 +109,10 @@ fun LevelUpRoot() {
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(Destination.DASHBOARD.route) {
-                DashboardScreen(snackbarHostState = snackbarHostState)
+                DashboardScreen(
+                    snackbarHostState = snackbarHostState,
+                    onCreateMission = { navController.navigate(Destination.missionEditorRoute()) },
+                )
             }
             composable(Destination.MISSIONS.route) {
                 MissionsScreen(

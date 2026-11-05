@@ -28,6 +28,7 @@ import com.appw.appwear.R
 import com.appw.appwear.shared.model.Category
 import com.appw.appwear.shared.model.Difficulty
 import com.appw.appwear.shared.model.Recurrence
+import com.appw.appwear.ui.components.CategoryChipIcon
 import com.appw.appwear.ui.components.labelRes
 import com.appw.appwear.ui.theme.LevelUpTheme
 
@@ -97,6 +98,7 @@ fun MissionEditorContent(
             selected = form.category,
             onSelect = { category -> onFormChange { it.copy(category = category) } },
             optionLabel = { stringResource(it.labelRes()) },
+            optionIcon = { CategoryChipIcon(it) },
         )
         ChoiceChips(
             label = stringResource(R.string.field_difficulty),
@@ -133,6 +135,7 @@ private fun <T> ChoiceChips(
     onSelect: (T) -> Unit,
     optionLabel: @Composable (T) -> String,
     modifier: Modifier = Modifier,
+    optionIcon: (@Composable (T) -> Unit)? = null,
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Text(text = label, style = MaterialTheme.typography.labelLarge)
@@ -142,6 +145,11 @@ private fun <T> ChoiceChips(
                     selected = option == selected,
                     onClick = { onSelect(option) },
                     label = { Text(optionLabel(option)) },
+                    leadingIcon = if (optionIcon != null) {
+                        { optionIcon(option) }
+                    } else {
+                        null
+                    },
                 )
             }
         }

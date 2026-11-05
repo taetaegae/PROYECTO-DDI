@@ -28,7 +28,7 @@
     <!-- Estados vacíos -->
     <string name="coming_soon">Próximamente</string>
     <string name="dashboard_empty_title">Aún no tienes misiones</string>
-    <string name="dashboard_empty_message">Crea tu primera misión en la pestaña Misiones para empezar a ganar XP.</string>
+    <string name="dashboard_empty_message">Crea tu primera misión para empezar a ganar XP.</string>
     <string name="missions_empty_title">Sin misiones</string>
     <string name="missions_empty_message">Toca + para crear tu primera misión.</string>
     <string name="stats_placeholder">Completa misiones para ver tu progreso semanal.</string>
@@ -43,12 +43,27 @@
     <string name="mission_completed">Completada</string>
     <string name="xp_reward_format">+%1$d XP</string>
     <string name="mission_summary_format">%1$s · %2$s</string>
-    <string name="mission_details_format">%1$s · %2$s · %3$s</string>
     <string name="filter_all">Todas</string>
     <string name="completion_reward_format">¡Misión cumplida! +%1$d XP · +%2$d monedas</string>
     <string name="level_up_format">¡Subiste al nivel %1$d! +%2$d XP</string>
     <string name="mission_already_completed">Esta misión ya está cumplida en este periodo.</string>
     <string name="mission_not_found">La misión ya no existe.</string>
+    <string name="action_create_mission">Crear misión</string>
+
+    <!-- Inicio -->
+    <string name="level_label">NIVEL</string>
+    <string name="xp_to_next_level_format">%1$d XP para el nivel %2$d</string>
+    <string name="stat_coins">monedas</string>
+    <string name="stat_done_today">hechas hoy</string>
+    <string name="today_progress_format">%1$d de %2$d</string>
+    <string name="today_progress_short_format">%1$d/%2$d</string>
+    <string name="all_done_title">¡Día perfecto!</string>
+    <string name="all_done_message">Completaste todas las misiones de hoy.</string>
+    <plurals name="streak_days_label">
+        <item quantity="one">día de racha</item>
+        <item quantity="many">días de racha</item>
+        <item quantity="other">días de racha</item>
+    </plurals>
 
     <!-- Editor de misiones -->
     <string name="field_title">Título</string>
