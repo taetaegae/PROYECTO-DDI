@@ -12,3 +12,12 @@ val XpGoldDeep = Color(0xFF3D2A00)
 
 val QuestMint = Color(0xFF3DDC97)
 val QuestMintDeep = Color(0xFF003822)
+
+val StreakFlame = Color(0xFFFF7A1A)
+val CoinGold = Color(0xFFF2A900)
+
+// Un color por categoría, igual que en el teléfono.
+val CategoryStudy = Color(0xFF4C7DFF)
+val CategoryExercise = Color(0xFFFF5C5C)
+val CategoryHabits = Color(0xFF14B88A)
+val CategoryCreative = Color(0xFFC64FE8)

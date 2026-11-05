@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
@@ -20,6 +22,9 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import com.appw.appwear.R
 import com.appw.appwear.data.FakeMissionRepository
+import com.appw.appwear.presentation.components.CategoryIcon
+import com.appw.appwear.presentation.components.TintedIcon
+import com.appw.appwear.presentation.components.XpLabel
 import com.appw.appwear.presentation.theme.LevelUpTheme
 import com.appw.appwear.shared.model.TodayMission
 
@@ -55,33 +60,80 @@ fun MissionsScreen(
                         textAlign = TextAlign.Center,
                     )
                 }
+            } else {
+                item {
+                    Text(
+                        text = stringResource(
+                            R.string.today_progress_format,
+                            missions.count { it.isCompleted },
+                            missions.size,
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                    )
+                }
             }
             items(missions, key = { it.mission.id }) { item ->
-                Button(
+                MissionButton(
+                    item = item,
                     onClick = { onMissionClick(item.mission.id) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .transformedHeight(this, transformationSpec),
                     transformation = SurfaceTransformation(transformationSpec),
-                    colors = if (item.isCompleted) {
-                        ButtonDefaults.filledTonalButtonColors()
-                    } else {
-                        ButtonDefaults.buttonColors()
-                    },
-                    secondaryLabel = {
-                        Text(
-                            if (item.isCompleted) {
-                                stringResource(R.string.mission_completed)
-                            } else {
-                                stringResource(R.string.xp_reward_format, item.mission.difficulty.baseXp)
-                            },
-                        )
-                    },
-                ) {
-                    Text(item.mission.title, maxLines = 2)
-                }
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun MissionButton(
+    item: TodayMission,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    transformation: SurfaceTransformation? = null,
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        transformation = transformation,
+        colors = ButtonDefaults.filledTonalButtonColors(),
+        icon = {
+            if (item.isCompleted) {
+                TintedIcon(
+                    iconRes = R.drawable.ic_check,
+                    color = MaterialTheme.colorScheme.tertiary,
+                    contentDescription = stringResource(R.string.mission_completed),
+                )
+            } else {
+                CategoryIcon(category = item.mission.category)
+            }
+        },
+        secondaryLabel = {
+            if (item.isCompleted) {
+                Text(
+                    text = stringResource(R.string.mission_completed),
+                    color = MaterialTheme.colorScheme.tertiary,
+                )
+            } else {
+                XpLabel(xp = item.mission.difficulty.baseXp)
+            }
+        },
+    ) {
+        Text(
+            text = item.mission.title,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            textDecoration = if (item.isCompleted) TextDecoration.LineThrough else null,
+            color = if (item.isCompleted) {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            } else {
+                MaterialTheme.colorScheme.onSurface
+            },
+        )
     }
 }
 

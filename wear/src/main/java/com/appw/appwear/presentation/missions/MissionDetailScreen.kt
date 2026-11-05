@@ -1,10 +1,14 @@
 package com.appw.appwear.presentation.missions
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.EdgeButton
@@ -19,6 +23,9 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import com.appw.appwear.R
 import com.appw.appwear.data.FakeMissionRepository
+import com.appw.appwear.presentation.components.CategoryIcon
+import com.appw.appwear.presentation.components.XpBadge
+import com.appw.appwear.presentation.components.labelRes
 import com.appw.appwear.presentation.theme.LevelUpTheme
 import com.appw.appwear.shared.model.TodayMission
 
@@ -59,6 +66,7 @@ fun MissionDetailScreen(
                     )
                 }
             } else {
+                val mission = item.mission
                 item {
                     ListHeader(
                         modifier = Modifier
@@ -66,22 +74,37 @@ fun MissionDetailScreen(
                             .transformedHeight(this, transformationSpec),
                         transformation = SurfaceTransformation(transformationSpec),
                     ) {
-                        Text(item.mission.title, textAlign = TextAlign.Center)
+                        Text(mission.title, textAlign = TextAlign.Center)
+                    }
+                }
+                item {
+                    // Categoría y XP en una sola fila para que el botón Completar quepa sin desplazar.
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        CategoryIcon(category = mission.category, size = 30.dp)
+                        XpBadge(xp = mission.difficulty.baseXp)
                     }
                 }
                 item {
                     Text(
-                        text = stringResource(R.string.xp_reward_format, item.mission.difficulty.baseXp),
+                        text = stringResource(
+                            R.string.mission_summary_format,
+                            stringResource(mission.difficulty.labelRes()),
+                            stringResource(mission.recurrence.labelRes()),
+                        ),
                         modifier = Modifier.fillMaxWidth(),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.secondary,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center,
                     )
                 }
-                if (item.mission.description.isNotBlank()) {
+                if (mission.description.isNotBlank()) {
                     item {
                         Text(
-                            text = item.mission.description,
+                            text = mission.description,
                             modifier = Modifier.fillMaxWidth(),
                             style = MaterialTheme.typography.bodyMedium,
                             textAlign = TextAlign.Center,
