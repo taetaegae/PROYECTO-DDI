@@ -22,7 +22,7 @@ enum class Destination(
 ) {
     DASHBOARD("dashboard", R.string.app_name, R.string.nav_dashboard),
     MISSIONS("missions", R.string.title_missions, R.string.nav_missions),
-    MISSION_EDITOR("missions/editor", R.string.title_mission_editor),
+    MISSION_EDITOR("missions/editor?missionId={missionId}", R.string.title_mission_editor),
     STATS("stats", R.string.title_stats, R.string.nav_stats),
     BADGES("badges", R.string.title_badges, R.string.nav_badges),
     REWARDS("rewards", R.string.title_rewards, R.string.nav_rewards),
@@ -31,9 +31,15 @@ enum class Destination(
     val isTopLevel: Boolean get() = labelRes != null
 
     companion object {
+        /** Argumento opcional del editor: sin él se crea una misión nueva. */
+        const val ARG_MISSION_ID = "missionId"
+
         val topLevel: List<Destination> = entries.filter { it.isTopLevel }
 
         fun fromRoute(route: String?): Destination = entries.find { it.route == route } ?: DASHBOARD
+
+        fun missionEditorRoute(missionId: String? = null): String =
+            if (missionId == null) "missions/editor" else "missions/editor?$ARG_MISSION_ID=$missionId"
     }
 }
 

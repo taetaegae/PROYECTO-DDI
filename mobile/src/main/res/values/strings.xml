@@ -9,6 +9,7 @@
     <string name="nav_rewards">Tienda</string>
     <string name="title_missions">Misiones</string>
     <string name="title_mission_editor">Nueva misión</string>
+    <string name="title_mission_edit">Editar misión</string>
     <string name="title_stats">Estadísticas</string>
     <string name="title_badges">Insignias</string>
     <string name="title_rewards">Recompensas</string>
@@ -30,9 +31,47 @@
     <string name="dashboard_empty_message">Crea tu primera misión en la pestaña Misiones para empezar a ganar XP.</string>
     <string name="missions_empty_title">Sin misiones</string>
     <string name="missions_empty_message">Toca + para crear tu primera misión.</string>
-    <string name="mission_editor_placeholder">Aquí podrás crear y editar tus misiones.</string>
     <string name="stats_placeholder">Completa misiones para ver tu progreso semanal.</string>
     <string name="badges_placeholder">Completa misiones para desbloquear insignias.</string>
     <string name="rewards_placeholder">Crea recompensas y canjéalas con tus monedas.</string>
     <string name="settings_placeholder">Aquí podrás cambiar tu nombre, los recordatorios y el modo demo.</string>
+    <string name="missions_empty_filtered">No hay misiones en esta categoría.</string>
+
+    <!-- Misiones -->
+    <string name="today_missions_header">Misiones de hoy</string>
+    <string name="action_complete">Completar</string>
+    <string name="mission_completed">Completada</string>
+    <string name="xp_reward_format">+%1$d XP</string>
+    <string name="mission_summary_format">%1$s · %2$s</string>
+    <string name="mission_details_format">%1$s · %2$s · %3$s</string>
+    <string name="filter_all">Todas</string>
+    <string name="completion_reward_format">¡Misión cumplida! +%1$d XP · +%2$d monedas</string>
+    <string name="level_up_format">¡Subiste al nivel %1$d! +%2$d XP</string>
+    <string name="mission_already_completed">Esta misión ya está cumplida en este periodo.</string>
+    <string name="mission_not_found">La misión ya no existe.</string>
+
+    <!-- Editor de misiones -->
+    <string name="field_title">Título</string>
+    <string name="field_description">Descripción (opcional)</string>
+    <string name="field_category">Categoría</string>
+    <string name="field_difficulty">Dificultad</string>
+    <string name="field_recurrence">Repetición</string>
+    <string name="difficulty_option_format">%1$s · %2$d XP</string>
+    <string name="error_title_required">Escribe un título.</string>
+    <string name="error_title_too_long">Máximo %1$d caracteres.</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_archive">Archivar misión</string>
+
+    <!-- Categorías, dificultades y repetición -->
+    <string name="category_study">Estudio</string>
+    <string name="category_exercise">Ejercicio</string>
+    <string name="category_habits">Hábitos</string>
+    <string name="category_creative">Creatividad</string>
+    <string name="difficulty_easy">Fácil</string>
+    <string name="difficulty_medium">Media</string>
+    <string name="difficulty_hard">Difícil</string>
+    <string name="difficulty_epic">Épica</string>
+    <string name="recurrence_once">Una vez</string>
+    <string name="recurrence_daily">Diaria</string>
+    <string name="recurrence_weekly">Semanal</string>
 </resources>
