@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
@@ -20,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -28,6 +30,7 @@ import com.appw.appwear.R
 import com.appw.appwear.shared.model.Category
 import com.appw.appwear.shared.model.Difficulty
 import com.appw.appwear.shared.model.Recurrence
+import com.appw.appwear.shared.model.Verification
 import com.appw.appwear.ui.components.CategoryChipIcon
 import com.appw.appwear.ui.components.labelRes
 import com.appw.appwear.ui.theme.LevelUpTheme
@@ -114,6 +117,39 @@ fun MissionEditorContent(
             onSelect = { recurrence -> onFormChange { it.copy(recurrence = recurrence) } },
             optionLabel = { stringResource(it.labelRes()) },
         )
+        ChoiceChips(
+            label = stringResource(R.string.field_verification),
+            // STEPS queda para el trabajo futuro; por ahora solo MANUAL y TIMER.
+            options = listOf(Verification.MANUAL, Verification.TIMER),
+            selected = form.verification,
+            onSelect = { verification -> onFormChange { it.copy(verification = verification) } },
+            optionLabel = { stringResource(it.labelRes()) },
+        )
+        if (form.verification == Verification.TIMER) {
+            val range = MissionEditorViewModel.TIMER_MINUTES_RANGE
+            OutlinedTextField(
+                value = form.timerMinutes,
+                onValueChange = { value ->
+                    // Solo dígitos y máximo 3, para que el campo no acepte texto.
+                    val digits = value.filter(Char::isDigit).take(3)
+                    onFormChange { it.copy(timerMinutes = digits) }
+                },
+                label = { Text(stringResource(R.string.field_timer_minutes)) },
+                isError = uiState.timerMinutesError,
+                supportingText = {
+                    Text(
+                        if (uiState.timerMinutesError) {
+                            stringResource(R.string.error_timer_minutes, range.first, range.last)
+                        } else {
+                            stringResource(R.string.timer_minutes_hint)
+                        },
+                    )
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
         Button(onClick = onSave, modifier = Modifier.fillMaxWidth()) {
             Text(stringResource(R.string.action_save))
         }

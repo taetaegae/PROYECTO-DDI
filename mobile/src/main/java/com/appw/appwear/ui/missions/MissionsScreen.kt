@@ -36,6 +36,7 @@ import com.appw.appwear.ui.components.CategoryIcon
 import com.appw.appwear.ui.components.EmptyState
 import com.appw.appwear.ui.components.XpBadge
 import com.appw.appwear.ui.components.labelRes
+import com.appw.appwear.ui.components.missionSummary
 import com.appw.appwear.ui.theme.LevelUpTheme
 
 /** T2 · Lista de misiones. */
@@ -144,11 +145,7 @@ private fun MissionCard(mission: Mission, onClick: () -> Unit, modifier: Modifie
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = stringResource(
-                        R.string.mission_summary_format,
-                        stringResource(mission.difficulty.labelRes()),
-                        stringResource(mission.recurrence.labelRes()),
-                    ),
+                    text = missionSummary(mission),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

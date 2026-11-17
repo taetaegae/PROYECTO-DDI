@@ -13,6 +13,7 @@ import com.appw.appwear.shared.model.Category
 import com.appw.appwear.shared.model.Difficulty
 import com.appw.appwear.shared.model.Mission
 import com.appw.appwear.shared.model.Recurrence
+import com.appw.appwear.shared.model.Verification
 import com.appw.appwear.ui.navigation.Destination
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +29,9 @@ data class MissionForm(
     val category: Category = Category.STUDY,
     val difficulty: Difficulty = Difficulty.EASY,
     val recurrence: Recurrence = Recurrence.DAILY,
+    val verification: Verification = Verification.MANUAL,
+    /** Texto del campo de minutos; solo se usa con [Verification.TIMER]. */
+    val timerMinutes: String = MissionEditorViewModel.DEFAULT_TIMER_MINUTES.toString(),
 )
 
 enum class TitleError { REQUIRED, TOO_LONG }
@@ -36,6 +40,8 @@ data class MissionEditorUiState(
     val form: MissionForm = MissionForm(),
     val isEditing: Boolean = false,
     val titleError: TitleError? = null,
+    /** true si la verificación es TIMER y los minutos no son válidos. */
+    val timerMinutesError: Boolean = false,
     /** true cuando se guardó o archivó la misión y hay que cerrar la pantalla. */
     val isFinished: Boolean = false,
 )
@@ -66,6 +72,8 @@ class MissionEditorViewModel(
                             category = mission.category,
                             difficulty = mission.difficulty,
                             recurrence = mission.recurrence,
+                            verification = mission.verification,
+                            timerMinutes = (mission.target ?: DEFAULT_TIMER_MINUTES).toString(),
                         ),
                     )
                 }
@@ -74,7 +82,7 @@ class MissionEditorViewModel(
     }
 
     fun updateForm(transform: (MissionForm) -> MissionForm) {
-        _uiState.update { it.copy(form = transform(it.form), titleError = null) }
+        _uiState.update { it.copy(form = transform(it.form), titleError = null, timerMinutesError = false) }
     }
 
     fun save() {
@@ -85,8 +93,11 @@ class MissionEditorViewModel(
             title.length > MAX_TITLE_LENGTH -> TitleError.TOO_LONG
             else -> null
         }
-        if (titleError != null) {
-            _uiState.update { it.copy(titleError = titleError) }
+        val isTimer = form.verification == Verification.TIMER
+        val timerMinutes = form.timerMinutes.trim().toIntOrNull()
+        val timerMinutesError = isTimer && (timerMinutes == null || timerMinutes !in TIMER_MINUTES_RANGE)
+        if (titleError != null || timerMinutesError) {
+            _uiState.update { it.copy(titleError = titleError, timerMinutesError = timerMinutesError) }
             return
         }
 
@@ -104,6 +115,9 @@ class MissionEditorViewModel(
             category = form.category,
             difficulty = form.difficulty,
             recurrence = form.recurrence,
+            verification = form.verification,
+            // Los minutos solo tienen sentido con el temporizador; en MANUAL no hay meta.
+            target = if (isTimer) timerMinutes else null,
         )
         viewModelScope.launch {
             missionRepository.save(mission)
@@ -121,6 +135,8 @@ class MissionEditorViewModel(
 
     companion object {
         const val MAX_TITLE_LENGTH = 60
+        const val DEFAULT_TIMER_MINUTES = 25
+        val TIMER_MINUTES_RANGE = 1..180
 
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
