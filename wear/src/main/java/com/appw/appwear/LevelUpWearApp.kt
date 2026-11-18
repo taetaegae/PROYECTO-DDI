@@ -9,7 +9,10 @@ import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import com.appw.appwear.tile.LevelTileService
 
 class LevelUpWearApp : Application() {
 
@@ -25,5 +28,11 @@ class LevelUpWearApp : Application() {
     override fun onCreate() {
         super.onCreate()
         appScope.launch { cache.loadFromDataLayer(Wearable.getDataClient(this@LevelUpWearApp)) }
+        // El Tile se redibuja cada vez que cambian el progreso o las misiones de hoy.
+        appScope.launch {
+            combine(cache.profile, cache.todayMissions) { profile, missions -> profile to missions }
+                .distinctUntilChanged()
+                .collect { LevelTileService.requestUpdate(this@LevelUpWearApp) }
+        }
     }
 }

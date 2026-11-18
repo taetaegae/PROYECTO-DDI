@@ -17,6 +17,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -28,6 +29,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
+import com.appw.appwear.LevelUpApp
+import com.appw.appwear.data.repository.newlyUnlocked
+import com.appw.appwear.ui.components.nameRes
 import androidx.navigation.navArgument
 import com.appw.appwear.R
 import com.appw.appwear.ui.badges.BadgesScreen
@@ -49,6 +55,20 @@ fun LevelUpRoot() {
     val isEditingMission = current == Destination.MISSION_EDITOR &&
         backStackEntry?.arguments?.getString(Destination.ARG_MISSION_ID) != null
     val snackbarHostState = remember { SnackbarHostState() }
+
+    // Avisa de cada insignia nueva, ya sea por una misión del teléfono o del reloj.
+    val context = LocalContext.current
+    val resources = LocalResources.current
+    LaunchedEffect(Unit) {
+        val progressRepository = (context.applicationContext as LevelUpApp).container.progressRepository
+        progressRepository.badges.newlyUnlocked().collect { badges ->
+            for (badge in badges) {
+                snackbarHostState.showSnackbar(
+                    resources.getString(R.string.badge_unlocked_snackbar, resources.getString(badge.nameRes())),
+                )
+            }
+        }
+    }
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },

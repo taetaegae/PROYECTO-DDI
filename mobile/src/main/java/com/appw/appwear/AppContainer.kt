@@ -5,6 +5,7 @@ import com.appw.appwear.data.db.AppDatabase
 import com.appw.appwear.data.repository.MissionRepository
 import com.appw.appwear.data.repository.ProgressRepository
 import com.appw.appwear.data.settings.DemoSettings
+import com.appw.appwear.sync.BadgeNotifier
 import com.appw.appwear.sync.StatePublisher
 import com.google.android.gms.wearable.Wearable
 import java.time.Clock
@@ -22,6 +23,8 @@ class AppContainer(context: Context) {
     val progressRepository = ProgressRepository(database.missionDao(), database.completionDao(), clock)
 
     val demoSettings = DemoSettings(context)
+
+    val badgeNotifier = BadgeNotifier(Wearable.getMessageClient(context), Wearable.getNodeClient(context))
 
     val statePublisher = StatePublisher(Wearable.getDataClient(context), progressRepository, demoSettings)
 }

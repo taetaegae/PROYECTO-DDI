@@ -41,6 +41,20 @@
                 android:value="Temporizador de estudio que completa una misión al terminar" />
         </service>
 
+        <!-- Tile: nivel, barra de XP y siguiente misión (Fase 4). -->
+        <service
+            android:name=".tile.LevelTileService"
+            android:exported="true"
+            android:label="@string/tile_label"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@mipmap/ic_launcher" />
+        </service>
+
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
@@ -60,6 +74,14 @@
                 <data
                     android:host="*"
                     android:pathPrefix="/levelup/state"
+                    android:scheme="wear" />
+            </intent-filter>
+            <!-- Avisos del teléfono, como una insignia nueva (Fase 3). -->
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <data
+                    android:host="*"
+                    android:pathPrefix="/levelup/notify"
                     android:scheme="wear" />
             </intent-filter>
         </service>

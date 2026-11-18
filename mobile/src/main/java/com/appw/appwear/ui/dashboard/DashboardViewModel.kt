@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.appw.appwear.appContainer
 import com.appw.appwear.data.repository.CompletionOutcome
 import com.appw.appwear.data.repository.ProgressRepository
+import com.appw.appwear.sync.BadgeNotifier
 import com.appw.appwear.shared.model.CompletionSource
 import com.appw.appwear.shared.model.PlayerProfile
 import com.appw.appwear.shared.model.TodayMission
@@ -26,7 +27,10 @@ data class DashboardUiState(
     val isLoading: Boolean = true,
 )
 
-class DashboardViewModel(private val progressRepository: ProgressRepository) : ViewModel() {
+class DashboardViewModel(
+    private val progressRepository: ProgressRepository,
+    private val badgeNotifier: BadgeNotifier,
+) : ViewModel() {
 
     val uiState: StateFlow<DashboardUiState> =
         combine(progressRepository.profile, progressRepository.todayMissions) { profile, missions ->
@@ -39,13 +43,19 @@ class DashboardViewModel(private val progressRepository: ProgressRepository) : V
 
     fun completeMission(missionId: String) {
         viewModelScope.launch {
-            outcomes.send(progressRepository.completeMission(missionId, CompletionSource.PHONE))
+            val outcome = progressRepository.completeMission(missionId, CompletionSource.PHONE)
+            outcomes.send(outcome)
+            // El reloj también celebra las insignias ganadas desde el teléfono.
+            if (outcome is CompletionOutcome.Completed) badgeNotifier.notify(outcome.newBadges)
         }
     }
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer { DashboardViewModel(appContainer().progressRepository) }
+            initializer {
+                val container = appContainer()
+                DashboardViewModel(container.progressRepository, container.badgeNotifier)
+            }
         }
     }
 }

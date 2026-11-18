@@ -15,6 +15,10 @@ interface CompletionDao {
     @Query("SELECT * FROM completions")
     suspend fun getAll(): List<CompletionEntity>
 
+    /** Modo demo: borra todo el historial para empezar de cero. */
+    @Query("DELETE FROM completions")
+    suspend fun deleteAll()
+
     /** Ignora el registro si su id ya existe, para que un evento repetido del reloj no duplique XP. */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(completion: CompletionEntity): Long

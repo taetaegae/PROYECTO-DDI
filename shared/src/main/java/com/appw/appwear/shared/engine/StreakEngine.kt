@@ -25,6 +25,23 @@ object StreakEngine {
     fun currentStreak(completions: Iterable<Completion>, today: LocalDate, zone: ZoneId): Int =
         currentStreak(completions.mapTo(HashSet()) { localDateOf(it.completedAt, zone) }, today)
 
+    /** La racha más larga del historial: días seguidos con al menos una misión. */
+    fun bestStreak(activeDays: Set<LocalDate>): Int {
+        var best = 0
+        for (day in activeDays) {
+            // Se mide solo desde el primer día de cada racha.
+            if (day.minusDays(1) in activeDays) continue
+            var length = 1
+            var next = day.plusDays(1)
+            while (next in activeDays) {
+                length++
+                next = next.plusDays(1)
+            }
+            best = maxOf(best, length)
+        }
+        return best
+    }
+
     fun localDateOf(epochMillis: Long, zone: ZoneId): LocalDate =
         Instant.ofEpochMilli(epochMillis).atZone(zone).toLocalDate()
 }

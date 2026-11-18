@@ -165,13 +165,13 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 **Ramas:** `feature/insignias`, `feature/recompensas`, `feature/wear-celebraciones`
 
 **Núcleo y datos**
-- [ ] Implementar `BadgeEngine` con el catálogo del plan y una prueba por regla.
-- [ ] Agregar `RewardEntity`, `RedemptionEntity` y `BadgeUnlockEntity` a la base de datos.
+- [x] Implementar `BadgeEngine` con el catálogo del plan y una prueba por regla.
+- [ ] Agregar `RewardEntity`, `RedemptionEntity` y `BadgeUnlockEntity` a la base de datos. *(Las insignias se derivan del historial, como la XP, así que `BadgeUnlockEntity` no hizo falta; faltan las recompensas.)*
 - [x] Calcular monedas y saldo, y aplicar el multiplicador de racha al completar.
-- [ ] Enviar `/levelup/notify/badge` al reloj cuando se desbloquea una insignia.
+- [x] Enviar `/levelup/notify/badge` al reloj cuando se desbloquea una insignia.
 
 **Teléfono**
-- [ ] T5 Galería de insignias.
+- [x] T5 Galería de insignias.
 - [ ] T6 Recompensas: crear, canjear (validando el saldo) e historial.
 - [x] Mostrar la racha y las monedas en T1. *(adelantado en la Fase 1)*
 - [ ] *(Could)* T4 Estadísticas: XP de los últimos 7 días.
@@ -180,7 +180,7 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 - [x] R6 Subida de nivel con animación y patrón de vibración.
 - [x] Vibración corta en R5.
 - [x] Mostrar la racha y las monedas en R1. *(adelantado en la Fase 1)*
-- [ ] Celebración al recibir una insignia desbloqueada.
+- [x] Celebración al recibir una insignia desbloqueada.
 
 **Criterios de aceptación**
 - Completar la primera misión desbloquea `FIRST_STEP` y el reloj lo celebra.
@@ -200,8 +200,8 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 **Reloj**
 - [x] R4 Temporizador con `FocusTimerService` en primer plano.
 - [x] Al terminar el temporizador: vibración y evento con `sensorVerified = true`.
-- [ ] `LevelTileService`: nivel, barra de XP y siguiente misión pendiente.
-- [ ] Refrescar el Tile cada vez que cambia el estado.
+- [x] `LevelTileService`: nivel, barra de XP y siguiente misión pendiente.
+- [x] Refrescar el Tile cada vez que cambia el estado.
 - [ ] *(Could)* Ongoing Activity para ver el temporizador en la carátula.
 
 **Teléfono**
@@ -251,7 +251,7 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 | H1 · Esqueleto listo | jue 29 oct | Completado |
 | H2 · MVP jugable | mar 3 nov | Completado |
 | H3 · Dispositivos conectados | sáb 7 nov | Completado (17 nov) |
-| H4 · Juego completo | vie 13 nov | En curso: faltan insignias y recompensas |
-| H5 · Experiencia wearable | vie 13 nov | En curso: falta el Tile |
+| H4 · Juego completo | vie 13 nov | En curso: falta la tienda de recompensas (T6) |
+| H5 · Experiencia wearable | vie 13 nov | Completado (18 nov) |
 | H6 · Listo para exponer | mar 17 nov | En curso: modo demo listo; faltan video y ensayo |
 | **Entrega** | **mié 18 nov** | Pendiente |
