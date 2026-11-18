@@ -43,6 +43,7 @@
     <string name="mission_completed">Completada</string>
     <string name="xp_reward_format">+%1$d XP</string>
     <string name="mission_summary_format">%1$s · %2$s</string>
+    <string name="timer_summary_format">%1$s · %2$d min</string>
     <string name="filter_all">Todas</string>
     <string name="completion_reward_format">¡Misión cumplida! +%1$d XP · +%2$d monedas</string>
     <string name="level_up_format">¡Subiste al nivel %1$d! +%2$d XP</string>
@@ -71,11 +72,30 @@
     <string name="field_category">Categoría</string>
     <string name="field_difficulty">Dificultad</string>
     <string name="field_recurrence">Repetición</string>
+    <string name="field_verification">Cómo se cumple</string>
+    <string name="field_timer_minutes">Minutos del temporizador</string>
+    <string name="timer_minutes_hint">Se completa sola al terminar el temporizador en el reloj.</string>
+    <string name="error_timer_minutes">Escribe un número entre %1$d y %2$d.</string>
     <string name="difficulty_option_format">%1$s · %2$d XP</string>
     <string name="error_title_required">Escribe un título.</string>
     <string name="error_title_too_long">Máximo %1$d caracteres.</string>
     <string name="action_save">Guardar</string>
     <string name="action_archive">Archivar misión</string>
+
+    <!-- Modo demo (T7, solo en la versión de depuración) -->
+    <string name="demo_title">Modo demo</string>
+    <string name="demo_description">Solo aparece en la versión de depuración. Prepara el guion de la exposición.</string>
+    <string name="demo_timer_title">Temporizador de 10 segundos</string>
+    <string name="demo_timer_subtitle">Las misiones con temporizador duran 10 s en el reloj.</string>
+    <string name="demo_prepare_level_up">Dejar a 10 XP de subir de nivel</string>
+    <string name="demo_load_samples">Cargar misiones de ejemplo</string>
+    <string name="demo_force_sync">Forzar sincronización con el reloj</string>
+    <string name="demo_level_up_ready">Listo: la siguiente misión te sube al nivel %1$d.</string>
+    <string name="demo_samples_loaded">Se cargaron 3 misiones de ejemplo.</string>
+    <string name="demo_sync_sent">Se volvió a enviar el estado al reloj.</string>
+    <string name="demo_mission_walk">Caminar 20 min</string>
+    <string name="demo_mission_read">Leer 10 páginas</string>
+    <string name="demo_mission_draw">Dibujar un boceto</string>
 
     <!-- Categorías, dificultades y repetición -->
     <string name="category_study">Estudio</string>
@@ -89,4 +109,7 @@
     <string name="recurrence_once">Una vez</string>
     <string name="recurrence_daily">Diaria</string>
     <string name="recurrence_weekly">Semanal</string>
+    <string name="verification_manual">La marco yo</string>
+    <string name="verification_timer">Temporizador del reloj</string>
+    <string name="verification_steps">Pasos</string>
 </resources>

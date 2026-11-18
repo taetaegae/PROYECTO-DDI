@@ -13,6 +13,13 @@ interface WatchRepository {
     /** Misiones de hoy; las pendientes primero y las completadas al final. */
     val todayMissions: StateFlow<List<TodayMission>>
 
-    /** Marca la misión como completada. Devuelve null si no existe o ya estaba completada. */
-    suspend fun completeMission(missionId: String): CompletionReward?
+    /** Modo demo publicado por el teléfono: el temporizador dura 10 segundos. */
+    val demoMode: StateFlow<Boolean>
+
+    /**
+     * Marca la misión como completada. Devuelve null si no existe o ya estaba completada.
+     *
+     * @param sensorVerified true si la validó el temporizador; da 25 % más de XP.
+     */
+    suspend fun completeMission(missionId: String, sensorVerified: Boolean = false): CompletionReward?
 }

@@ -127,29 +127,29 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 
 ## Fase 2 · Sincronización
 
-**Fechas:** miércoles 4 al sábado 7 de noviembre (4 días)
+**Fechas:** miércoles 4 al sábado 7 de noviembre (4 días) · **Completada** el 17 de noviembre
 
 **Objetivo:** teléfono y reloj comparten el mismo estado mediante el Data Layer.
 
 **Ramas:** `feature/sincronizacion-telefono`, `feature/sincronizacion-reloj`
 
 **Núcleo y datos**
-- [ ] Definir `SyncPaths` y los DTOs `@Serializable` (`ProfileDto`, `MissionDto`, `CompletionEventDto`) en `:shared`.
-- [ ] Implementar `StatePublisher` en el teléfono, que publica `/levelup/state/profile` y `/levelup/state/missions` cada vez que cambia el estado.
-- [ ] Implementar `PhoneSyncService` (`WearableListenerService`) que procesa los eventos de completado, ignora los `uuid` repetidos y elimina el evento procesado.
-- [ ] Registrar los servicios en ambos manifiestos con sus filtros de ruta.
+- [x] Definir `SyncPaths` y los DTOs `@Serializable` (`ProfileDto`, `MissionDto`, `CompletionEventDto`) en `:shared`.
+- [x] Implementar `StatePublisher` en el teléfono, que publica `/levelup/state/profile` y `/levelup/state/missions` cada vez que cambia el estado.
+- [x] Implementar `PhoneSyncService` (`WearableListenerService`) que procesa los eventos de completado, ignora los `uuid` repetidos y elimina el evento procesado.
+- [x] Registrar los servicios en ambos manifiestos con sus filtros de ruta.
 
 **Reloj**
-- [ ] Implementar `WatchStateCache` con DataStore.
-- [ ] Implementar `WatchSyncService` que actualiza la caché al recibir estado.
-- [ ] Reemplazar `FakeMissionRepository` por un repositorio que lee de la caché.
-- [ ] Implementar `EventSender`: completar una misión crea el `DataItem` del evento y muestra la XP de forma optimista.
+- [x] Implementar `WatchStateCache` con DataStore.
+- [x] Implementar `WatchSyncService` que actualiza la caché al recibir estado.
+- [x] Reemplazar `FakeMissionRepository` por un repositorio que lee de la caché.
+- [x] Implementar `EventSender`: completar una misión crea el `DataItem` del evento y muestra la XP de forma optimista.
 
 **Lista de verificación manual**
-- [ ] Una misión creada en el teléfono aparece en el reloj en menos de 5 segundos.
-- [ ] Una misión completada en el reloj actualiza la XP del teléfono.
-- [ ] Con el reloj desconectado se completa una misión; al reconectar, la XP se aplica **una sola vez**.
-- [ ] Al reinstalar la app del reloj, recupera el estado actual sin intervención.
+- [x] Una misión creada en el teléfono aparece en el reloj en menos de 5 segundos.
+- [x] Una misión completada en el reloj actualiza la XP del teléfono.
+- [x] Con el reloj desconectado se completa una misión; al reconectar, la XP se aplica **una sola vez**.
+- [x] Al reinstalar la app del reloj, recupera el estado actual sin intervención.
 
 **Criterios de aceptación**
 - Toda la lista de verificación manual se cumple con los emuladores vinculados.
@@ -167,19 +167,19 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 **Núcleo y datos**
 - [ ] Implementar `BadgeEngine` con el catálogo del plan y una prueba por regla.
 - [ ] Agregar `RewardEntity`, `RedemptionEntity` y `BadgeUnlockEntity` a la base de datos.
-- [ ] Calcular monedas y saldo, y aplicar el multiplicador de racha al completar.
+- [x] Calcular monedas y saldo, y aplicar el multiplicador de racha al completar.
 - [ ] Enviar `/levelup/notify/badge` al reloj cuando se desbloquea una insignia.
 
 **Teléfono**
 - [ ] T5 Galería de insignias.
 - [ ] T6 Recompensas: crear, canjear (validando el saldo) e historial.
-- [ ] Mostrar la racha y las monedas en T1.
+- [x] Mostrar la racha y las monedas en T1. *(adelantado en la Fase 1)*
 - [ ] *(Could)* T4 Estadísticas: XP de los últimos 7 días.
 
 **Reloj**
-- [ ] R6 Subida de nivel con animación y patrón de vibración.
-- [ ] Vibración corta en R5.
-- [ ] Mostrar la racha y las monedas en R1.
+- [x] R6 Subida de nivel con animación y patrón de vibración.
+- [x] Vibración corta en R5.
+- [x] Mostrar la racha y las monedas en R1. *(adelantado en la Fase 1)*
 - [ ] Celebración al recibir una insignia desbloqueada.
 
 **Criterios de aceptación**
@@ -198,14 +198,14 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 **Ramas:** `feature/wear-temporizador`, `feature/wear-tile`
 
 **Reloj**
-- [ ] R4 Temporizador con `FocusTimerService` en primer plano.
-- [ ] Al terminar el temporizador: vibración y evento con `sensorVerified = true`.
+- [x] R4 Temporizador con `FocusTimerService` en primer plano.
+- [x] Al terminar el temporizador: vibración y evento con `sensorVerified = true`.
 - [ ] `LevelTileService`: nivel, barra de XP y siguiente misión pendiente.
 - [ ] Refrescar el Tile cada vez que cambia el estado.
 - [ ] *(Could)* Ongoing Activity para ver el temporizador en la carátula.
 
 **Teléfono**
-- [ ] Permitir en T3 la verificación `TIMER` con su meta en minutos.
+- [x] Permitir en T3 la verificación `TIMER` con su meta en minutos.
 - [ ] *(Could)* `ReminderWorker` con WorkManager para el recordatorio diario y solicitud de `POST_NOTIFICATIONS`.
 
 **Criterios de aceptación**
@@ -230,10 +230,10 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 | mar 17 nov | Ensayo general del guion (al menos dos veces) y presentación |
 | mié 18 nov | **Entrega y exposición** |
 
-- [ ] Modo demo en T7 (solo `debug`): perfil a 10 XP de subir de nivel, temporizador de 10 segundos, datos de ejemplo y forzar sincronización.
+- [x] Modo demo en T7 (solo `debug`): perfil a 10 XP de subir de nivel, temporizador de 10 segundos, datos de ejemplo y forzar sincronización.
 - [ ] Revisar estados vacíos y mensajes cuando el reloj no está conectado.
 - [ ] Revisar accesibilidad: escalas de fuente con `@WearPreviewFontScales` y `contentDescription` en íconos.
-- [ ] Actualizar el `README.md`: caso de estudio LevelUp, capturas y enlace a este roadmap.
+- [ ] Actualizar el `README.md`: caso de estudio LevelUp, capturas y enlace a este roadmap. *(texto listo; faltan las capturas)*
 - [ ] Grabar el video de respaldo.
 - [ ] Ensayar el guion de demo del plan al menos dos veces.
 - [ ] Preparar la presentación.
@@ -250,8 +250,8 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 |---|---|---|
 | H1 · Esqueleto listo | jue 29 oct | Completado |
 | H2 · MVP jugable | mar 3 nov | Completado |
-| H3 · Dispositivos conectados | sáb 7 nov | Pendiente |
-| H4 · Juego completo | vie 13 nov | Pendiente |
-| H5 · Experiencia wearable | vie 13 nov | Pendiente |
-| H6 · Listo para exponer | mar 17 nov | Pendiente |
+| H3 · Dispositivos conectados | sáb 7 nov | Completado (17 nov) |
+| H4 · Juego completo | vie 13 nov | En curso: faltan insignias y recompensas |
+| H5 · Experiencia wearable | vie 13 nov | En curso: falta el Tile |
+| H6 · Listo para exponer | mar 17 nov | En curso: modo demo listo; faltan video y ensayo |
 | **Entrega** | **mié 18 nov** | Pendiente |

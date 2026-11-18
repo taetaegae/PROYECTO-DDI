@@ -5,6 +5,8 @@ import com.appw.appwear.shared.model.Difficulty
 import com.appw.appwear.shared.model.Recurrence
 import com.appw.appwear.shared.model.Verification
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class SyncJsonTest {
@@ -42,5 +44,17 @@ class SyncJsonTest {
         val event = SyncJson.decodeEvent(text)
 
         assertEquals(CompletionEventDto(eventId = "e1", missionId = "m1", completedAt = 42), event)
+    }
+
+    @Test
+    fun settingsRoundTrip() {
+        val settings = SettingsDto(demoMode = true)
+        assertEquals(settings, SyncJson.decodeSettings(SyncJson.encodeSettings(settings)))
+        assertTrue(SyncJson.decodeSettings(SyncJson.encodeSettings(settings)).demoMode)
+    }
+
+    @Test
+    fun settingsWithoutFieldsMeansNoDemo() {
+        assertFalse(SyncJson.decodeSettings("{}").demoMode)
     }
 }

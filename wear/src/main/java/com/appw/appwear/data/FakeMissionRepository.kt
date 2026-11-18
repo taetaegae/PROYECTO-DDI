@@ -23,12 +23,14 @@ class FakeMissionRepository : WatchRepository {
     private val _todayMissions = MutableStateFlow(sampleMissions.map { TodayMission(it, isCompleted = false) })
     override val todayMissions: StateFlow<List<TodayMission>> = _todayMissions.asStateFlow()
 
-    override suspend fun completeMission(missionId: String): CompletionReward? {
+    override val demoMode: StateFlow<Boolean> = MutableStateFlow(false)
+
+    override suspend fun completeMission(missionId: String, sensorVerified: Boolean): CompletionReward? {
         val item = _todayMissions.value.find { it.mission.id == missionId }
         if (item == null || item.isCompleted) return null
 
         val before = _profile.value
-        val xp = XpEngine.xpEarned(item.mission.difficulty, before.streakDays, sensorVerified = false)
+        val xp = XpEngine.xpEarned(item.mission.difficulty, before.streakDays, sensorVerified)
         val coins = XpEngine.coinsFor(xp)
         val after = before.copy(totalXp = before.totalXp + xp, coins = before.coins + coins)
 

@@ -28,30 +28,41 @@ import com.appw.appwear.presentation.components.XpBadge
 import com.appw.appwear.presentation.components.labelRes
 import com.appw.appwear.presentation.theme.LevelUpTheme
 import com.appw.appwear.shared.model.TodayMission
+import com.appw.appwear.shared.model.Verification
 
-/** R3 · Detalle de misión con el botón para completarla. */
+/** R3 · Detalle de misión: completarla (MANUAL) o iniciar su temporizador (TIMER). */
 @Composable
 fun MissionDetailScreen(
     item: TodayMission?,
     onComplete: () -> Unit,
     modifier: Modifier = Modifier,
+    onStartTimer: () -> Unit = {},
+    isTimerRunning: Boolean = false,
+    demoMode: Boolean = false,
 ) {
     val listState = rememberTransformingLazyColumnState()
     val transformationSpec = rememberTransformationSpec()
+    val timerMinutes = item?.mission?.takeIf { it.verification == Verification.TIMER }?.let {
+        it.target ?: DEFAULT_TIMER_MINUTES
+    }
 
     ScreenScaffold(
         scrollState = listState,
         modifier = modifier,
         edgeButton = {
             EdgeButton(
-                onClick = onComplete,
+                onClick = if (timerMinutes != null) onStartTimer else onComplete,
                 buttonSize = EdgeButtonSize.Medium,
                 enabled = item != null && !item.isCompleted,
             ) {
                 Text(
-                    stringResource(
-                        if (item?.isCompleted == true) R.string.mission_completed else R.string.action_complete,
-                    ),
+                    when {
+                        item?.isCompleted == true -> stringResource(R.string.mission_completed)
+                        isTimerRunning -> stringResource(R.string.action_open_timer)
+                        timerMinutes != null && demoMode -> stringResource(R.string.action_start_timer_demo)
+                        timerMinutes != null -> stringResource(R.string.action_start_timer_format, timerMinutes)
+                        else -> stringResource(R.string.action_complete)
+                    },
                 )
             }
         },
@@ -115,6 +126,9 @@ fun MissionDetailScreen(
         }
     }
 }
+
+/** Minutos si una misión TIMER llega sin meta. Igual que en el formulario del teléfono. */
+const val DEFAULT_TIMER_MINUTES = 25
 
 @WearPreviewDevices
 @Composable

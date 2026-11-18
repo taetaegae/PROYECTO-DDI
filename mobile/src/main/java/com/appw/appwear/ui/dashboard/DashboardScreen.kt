@@ -74,6 +74,7 @@ import com.appw.appwear.shared.model.TodayMission
 import com.appw.appwear.ui.components.CategoryIcon
 import com.appw.appwear.ui.components.XpBadge
 import com.appw.appwear.ui.components.labelRes
+import com.appw.appwear.ui.components.missionSummary
 import com.appw.appwear.ui.theme.CoinGold
 import com.appw.appwear.ui.theme.HeroEnd
 import com.appw.appwear.ui.theme.HeroStart
@@ -393,11 +394,7 @@ private fun TodayMissionCard(item: TodayMission, onComplete: () -> Unit, modifie
                 ) {
                     XpBadge(xp = mission.difficulty.baseXp)
                     Text(
-                        text = stringResource(
-                            R.string.mission_summary_format,
-                            stringResource(mission.difficulty.labelRes()),
-                            stringResource(mission.recurrence.labelRes()),
-                        ),
+                        text = missionSummary(mission),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

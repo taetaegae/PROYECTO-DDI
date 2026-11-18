@@ -2,7 +2,10 @@
 
 Aplicación para wearables (Wear OS) con una app complementaria para el teléfono, desarrollada para la materia **DDI**.
 
-> **Caso de estudio:** por definir.
+> **Caso de estudio: LevelUp.** Convierte las tareas diarias en misiones de un videojuego. Se crean en el teléfono y se cumplen desde el reloj, con un temporizador de concentración, y cada misión da XP, monedas y racha para subir de nivel.
+
+- [Plan de implementación](docs/PLAN_DE_IMPLEMENTACION.md): reglas del juego, arquitectura y guion de la demo.
+- [Roadmap](docs/ROADMAP.md): fases, tareas y estado de cada hito.
 
 ## Estructura del proyecto
 
@@ -32,6 +35,32 @@ Ambos módulos comparten el `applicationId` **`com.appw.appwear`**. Es obligator
    - Un reloj **Wear OS**.
 5. Vincula el reloj con el teléfono: en Device Manager, menú ⋮ del emulador Wear OS → **Pair Wearable**.
 6. Ejecuta la configuración **mobile** en el teléfono y **wear** en el reloj.
+
+### Si el reloj no recibe nada del teléfono
+
+Android Studio conecta los emuladores vinculados solo mientras está abierto. Si ejecutas las apps sin Android Studio, o el reloj se queda con datos viejos, conecta los emuladores a mano. Busca sus nombres con `adb devices`. En este ejemplo, el teléfono es `emulator-5556` y el reloj es `emulator-5554`:
+
+```bash
+adb -s emulator-5556 forward tcp:5601 tcp:5601
+adb -s emulator-5554 reverse tcp:5601 tcp:5601
+```
+
+Para comprobar la conexión, este comando debe mostrar `1 connected out of 1`:
+
+```bash
+adb -s emulator-5554 shell dumpsys activity service WearableService | grep "connected out of"
+```
+
+## Modo demo
+
+En la versión de depuración, **Ajustes** (el engrane de la pantalla de inicio del teléfono) muestra el modo demo para preparar la exposición:
+
+- **Temporizador de 10 segundos:** las misiones con temporizador duran 10 s en el reloj en lugar de sus minutos.
+- **Dejar a 10 XP de subir de nivel:** la siguiente misión que completes sube al jugador de nivel.
+- **Cargar misiones de ejemplo:** agrega tres misiones. Si se carga dos veces, no se duplican.
+- **Forzar sincronización con el reloj:** vuelve a enviar todo el estado al reloj.
+
+Guion de la demo: en el teléfono se crea "Estudiar 25 min" (dificultad Media, "Temporizador del reloj"). En el reloj se abre la misión y se toca **Iniciar · 10 s**. Al terminar, el reloj vibra y muestra **+31 XP** (con la racha en 0) y la subida de nivel, y el teléfono se actualiza.
 
 ## Flujo de trabajo con Git
 

@@ -33,6 +33,24 @@
     <string name="mission_done_level_up_format">¡Nivel %1$d!</string>
     <string name="action_done">Listo</string>
 
+    <!-- Temporizador -->
+    <string name="action_start_timer_format">Iniciar · %1$d min</string>
+    <string name="action_open_timer">Ver temporizador</string>
+    <string name="action_start_timer_demo">Iniciar · 10 s</string>
+    <string name="timer_running">Concentración</string>
+    <string name="timer_paused">En pausa</string>
+    <string name="timer_finished">Tiempo terminado</string>
+    <string name="timer_remaining_description">Faltan %1$s</string>
+    <string name="timer_channel_name">Temporizador</string>
+    <string name="action_pause">Pausar</string>
+    <string name="action_resume">Reanudar</string>
+    <string name="action_cancel">Cancelar</string>
+
+    <!-- Subida de nivel -->
+    <string name="level_up_label">¡SUBISTE DE NIVEL!</string>
+    <string name="level_up_description">Subiste al nivel %1$d</string>
+    <string name="action_continue">Continuar</string>
+
     <!-- Categorías, dificultades y repetición -->
     <string name="category_study">Estudio</string>
     <string name="category_exercise">Ejercicio</string>

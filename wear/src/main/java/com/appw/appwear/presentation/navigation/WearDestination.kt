@@ -7,6 +7,8 @@ object WearDestination {
     const val ARG_MISSION_ID = "missionId"
     const val MISSION_DETAIL = "missions/{missionId}"
     const val MISSION_DONE = "mission_done"
+    const val TIMER = "timer"
+    const val LEVEL_UP = "level_up"
 
     fun missionDetail(missionId: String): String = "missions/$missionId"
 }

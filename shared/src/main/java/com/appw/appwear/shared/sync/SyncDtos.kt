@@ -20,6 +20,13 @@ data class ProfileDto(
     val coins: Int,
 )
 
+/** Ajustes del teléfono que el reloj necesita conocer. */
+@Serializable
+data class SettingsDto(
+    /** Modo demo (solo en la versión de depuración): el temporizador dura 10 segundos. */
+    val demoMode: Boolean = false,
+)
+
 /** Una misión de hoy y si ya se completó en el periodo actual. */
 @Serializable
 data class MissionDto(
@@ -92,6 +99,10 @@ object SyncJson {
     fun decodeMissions(text: String): List<MissionDto> = json.decodeFromString(text)
 
     fun encodeEvent(event: CompletionEventDto): String = json.encodeToString(event)
+
+    fun encodeSettings(settings: SettingsDto): String = json.encodeToString(settings)
+
+    fun decodeSettings(text: String): SettingsDto = json.decodeFromString(text)
 
     fun decodeEvent(text: String): CompletionEventDto = json.decodeFromString(text)
 }
