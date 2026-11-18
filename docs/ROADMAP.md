@@ -91,31 +91,31 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 
 ## Fase 1 · MVP local
 
-**Fechas:** viernes 30 de octubre al martes 3 de noviembre (5 días)
+**Fechas:** viernes 30 de octubre al martes 3 de noviembre (5 días) · **Completada**
 
 **Objetivo:** el juego funciona completo en el teléfono, y el reloj ya tiene sus pantallas principales.
 
 **Ramas:** `feature/mobile-database`, `feature/mobile-misiones`, `feature/wear-misiones`
 
 **Núcleo y datos**
-- [ ] Crear `AppDatabase` con `MissionEntity`, `CompletionEntity`, sus DAOs y los mapeos a los modelos de dominio.
-- [ ] Implementar `MissionRepository` y `ProgressRepository`, exponiendo `Flow` para la UI.
-- [ ] Crear `LevelUpApp` con el `AppContainer` manual.
-- [ ] Impedir que una misión diaria se complete dos veces el mismo día.
-- [ ] Vincular los emuladores con **Pair Wearable** y confirmar que el teléfono usa una imagen con Google Play. Se adelanta a esta fase para no descubrir problemas de conexión en la Fase 2.
+- [x] Crear `AppDatabase` con `MissionEntity`, `CompletionEntity`, sus DAOs y los mapeos a los modelos de dominio.
+- [x] Implementar `MissionRepository` y `ProgressRepository`, exponiendo `Flow` para la UI.
+- [x] Crear `LevelUpApp` con el `AppContainer` manual.
+- [x] Impedir que una misión diaria se complete dos veces el mismo día.
+- [x] Vincular los emuladores con **Pair Wearable** y confirmar que el teléfono usa una imagen con Google Play. Se adelanta a esta fase para no descubrir problemas de conexión en la Fase 2.
 
 **Teléfono**
-- [ ] T1 Dashboard: nivel, barra de XP y misiones de hoy.
-- [ ] T2 Lista de misiones con filtros por categoría.
-- [ ] T3 Formulario para crear y editar misiones con validación.
-- [ ] Completar una misión `MANUAL` y mostrar la XP ganada.
+- [x] T1 Dashboard: nivel, barra de XP y misiones de hoy.
+- [x] T2 Lista de misiones con filtros por categoría.
+- [x] T3 Formulario para crear y editar misiones con validación.
+- [x] Completar una misión `MANUAL` y mostrar la XP ganada.
 
 **Reloj**
-- [ ] Crear un `FakeMissionRepository` con datos de ejemplo.
-- [ ] R1 Inicio con el anillo de progreso de XP.
-- [ ] R2 Misiones de hoy.
-- [ ] R3 Detalle de misión con el botón completar.
-- [ ] R5 Pantalla de misión cumplida.
+- [x] Crear un `FakeMissionRepository` con datos de ejemplo.
+- [x] R1 Inicio con el anillo de progreso de XP.
+- [x] R2 Misiones de hoy.
+- [x] R3 Detalle de misión con el botón completar.
+- [x] R5 Pantalla de misión cumplida.
 
 **Criterios de aceptación**
 - Una misión creada en el teléfono sigue ahí después de cerrar y abrir la app.
@@ -248,8 +248,8 @@ Una tarea se considera terminada cuando cumple todo lo siguiente:
 
 | Hito | Fecha objetivo | Estado |
 |---|---|---|
-| H1 · Esqueleto listo | jue 29 oct | En revisión |
-| H2 · MVP jugable | mar 3 nov | Pendiente |
+| H1 · Esqueleto listo | jue 29 oct | Completado |
+| H2 · MVP jugable | mar 3 nov | Completado |
 | H3 · Dispositivos conectados | sáb 7 nov | Pendiente |
 | H4 · Juego completo | vie 13 nov | Pendiente |
 | H5 · Experiencia wearable | vie 13 nov | Pendiente |

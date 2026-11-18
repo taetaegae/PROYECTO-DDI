@@ -44,4 +44,4 @@ Ambos módulos comparten el `applicationId` **`com.appw.appwear`**. Es obligator
 
 - Bazaldua Hernandez Juan Miguel 
 - Vasquez Flores Andrea
-- Torres Luna Jorge Hummberto
+- Torres Luna Jorge Humberto

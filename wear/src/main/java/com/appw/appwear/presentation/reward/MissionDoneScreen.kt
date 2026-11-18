@@ -1,17 +1,13 @@
 package com.appw.appwear.presentation.reward
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -63,11 +59,16 @@ fun MissionDoneScreen(
                 }
             }
             item {
+                // Si subió de nivel, el título lo anuncia; así no se agrega otra fila y el botón Listo cabe.
                 Text(
-                    text = stringResource(R.string.mission_done_title),
+                    text = if (reward != null && reward.leveledUp) {
+                        stringResource(R.string.mission_done_level_up_format, reward.levelAfter)
+                    } else {
+                        stringResource(R.string.mission_done_title)
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.tertiary,
+                    color = if (leveledUp) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.tertiary,
                     textAlign = TextAlign.Center,
                 )
             }
@@ -97,22 +98,6 @@ fun MissionDoneScreen(
                             text = stringResource(R.string.coins_reward_format, reward.coinsEarned),
                             style = MaterialTheme.typography.labelMedium,
                         )
-                    }
-                }
-                if (reward.leveledUp) {
-                    item {
-                        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                            Text(
-                                text = stringResource(R.string.mission_done_level_up_format, reward.levelAfter),
-                                modifier = Modifier
-                                    .padding(top = 4.dp)
-                                    .clip(CircleShape)
-                                    .background(MaterialTheme.colorScheme.primaryContainer)
-                                    .padding(horizontal = 12.dp, vertical = 4.dp),
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            )
-                        }
                     }
                 }
             }

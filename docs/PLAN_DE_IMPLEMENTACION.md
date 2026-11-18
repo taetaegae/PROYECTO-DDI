@@ -8,7 +8,7 @@
 | **Lenguaje** | Kotlin |
 | **Versión del documento** | 1.1 · 29 de octubre de 2026 |
 | **Fecha de entrega** | Miércoles 18 de noviembre de 2026 |
-| **Integrantes** | Bazaldua Hernandez Juan Miguel · Vasquez Flores Andrea · Torres Luna Jorge Hummberto |
+| **Integrantes** | Bazaldua Hernandez Juan Miguel · Vasquez Flores Andrea · Torres Luna Jorge Humberto |
 
 El calendario de trabajo, las tareas por fase y los criterios de aceptación están en [ROADMAP.md](ROADMAP.md).
 
