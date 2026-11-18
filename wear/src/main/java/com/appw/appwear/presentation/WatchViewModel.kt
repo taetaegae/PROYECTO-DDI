@@ -48,9 +48,13 @@ class WatchViewModel(
     /** Temporizador que acaba de terminar, pendiente de mostrarse en R5. */
     val timerResult: StateFlow<TimerResult?> = focusTimer.result
 
+    /** Modo demo del teléfono: el temporizador dura 10 segundos. */
+    val demoMode: StateFlow<Boolean> = repository.demoMode
+
     fun startTimer(mission: Mission) {
         val minutes = mission.target ?: DEFAULT_TIMER_MINUTES
-        focusTimer.start(mission, minutes * 60_000L)
+        val duration = if (demoMode.value) DEMO_TIMER_MILLIS else minutes * 60_000L
+        focusTimer.start(mission, duration)
     }
 
     fun pauseTimer() = focusTimer.pause()
@@ -74,3 +78,6 @@ class WatchViewModel(
         }
     }
 }
+
+/** Duración del temporizador en el modo demo. */
+const val DEMO_TIMER_MILLIS = 10_000L

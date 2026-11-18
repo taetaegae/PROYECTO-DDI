@@ -9,6 +9,9 @@ object SyncPaths {
     /** Teléfono → reloj: misiones de hoy con su estado. */
     const val MISSIONS = "/levelup/state/missions"
 
+    /** Teléfono → reloj: ajustes que también aplican en el reloj, como el modo demo. */
+    const val SETTINGS = "/levelup/state/settings"
+
     /** Reloj → teléfono: una misión completada en el reloj. Cada evento lleva su propio id al final. */
     const val COMPLETION_PREFIX = "/levelup/events/completion/"
 

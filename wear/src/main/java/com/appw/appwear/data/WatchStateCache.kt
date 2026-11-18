@@ -27,8 +27,14 @@ class WatchStateCache(private val context: Context) {
     val todayMissions: Flow<List<TodayMission>> = context.syncStore.data.map { prefs ->
         prefs[MISSIONS_KEY]?.let { json -> SyncJson.decodeMissions(json).map { it.toTodayMission() } } ?: emptyList()
     }
+    /** Modo demo que publica el teléfono desde T7. */
+    val demoMode: Flow<Boolean> = context.syncStore.data.map { prefs ->
+        prefs[SETTINGS_KEY]?.let { SyncJson.decodeSettings(it).demoMode } ?: false
+    }
+
     suspend fun saveFromPhone(path: String?, json: String) {
         when (path) {
+            SyncPaths.SETTINGS -> context.syncStore.edit { it[SETTINGS_KEY] = json }
             SyncPaths.PROFILE -> context.syncStore.edit { it[PROFILE_KEY] = json }
             SyncPaths.MISSIONS -> context.syncStore.edit { it[MISSIONS_KEY] = json }
         }
@@ -47,5 +53,6 @@ class WatchStateCache(private val context: Context) {
     private companion object {
         val PROFILE_KEY = stringPreferencesKey("profile")
         val MISSIONS_KEY = stringPreferencesKey("missions")
+        val SETTINGS_KEY = stringPreferencesKey("settings")
     }
 }

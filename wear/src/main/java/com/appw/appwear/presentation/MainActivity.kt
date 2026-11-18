@@ -45,6 +45,7 @@ fun WearApp(viewModel: WatchViewModel = viewModel(factory = WatchViewModel.Facto
     val lastReward by viewModel.lastReward.collectAsStateWithLifecycle()
     val timer by viewModel.timer.collectAsStateWithLifecycle()
     val timerResult by viewModel.timerResult.collectAsStateWithLifecycle()
+    val demoMode by viewModel.demoMode.collectAsStateWithLifecycle()
     val context = LocalContext.current
     // El temporizador funciona aunque se niegue el permiso; solo no se ve su notificación.
     val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
@@ -91,6 +92,7 @@ fun WearApp(viewModel: WatchViewModel = viewModel(factory = WatchViewModel.Facto
                     MissionDetailScreen(
                         item = item,
                         isTimerRunning = timer != null && timer?.missionId == missionId,
+                        demoMode = demoMode,
                         onStartTimer = {
                             if (item != null && timer?.missionId != missionId) {
                                 viewModel.startTimer(item.mission)

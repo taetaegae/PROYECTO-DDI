@@ -120,8 +120,8 @@ class FocusTimer private constructor(
 
     private suspend fun finish(timer: TimerState) {
         Haptics.timerDone(context)
-        // TODO(Fase 2): enviar sensorVerified = true (+25 % de XP) cuando WatchRepository lo reciba.
-        val reward = repository.completeMission(timer.missionId)
+        // Terminar el temporizador cuenta como verificación del reloj: da 25 % más de XP.
+        val reward = repository.completeMission(timer.missionId, sensorVerified = true)
         _result.value = TimerResult(reward)
         save(null)
         FocusTimerService.stop(context)

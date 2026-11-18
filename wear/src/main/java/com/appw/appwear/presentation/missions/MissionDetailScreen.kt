@@ -38,6 +38,7 @@ fun MissionDetailScreen(
     modifier: Modifier = Modifier,
     onStartTimer: () -> Unit = {},
     isTimerRunning: Boolean = false,
+    demoMode: Boolean = false,
 ) {
     val listState = rememberTransformingLazyColumnState()
     val transformationSpec = rememberTransformationSpec()
@@ -58,6 +59,7 @@ fun MissionDetailScreen(
                     when {
                         item?.isCompleted == true -> stringResource(R.string.mission_completed)
                         isTimerRunning -> stringResource(R.string.action_open_timer)
+                        timerMinutes != null && demoMode -> stringResource(R.string.action_start_timer_demo)
                         timerMinutes != null -> stringResource(R.string.action_start_timer_format, timerMinutes)
                         else -> stringResource(R.string.action_complete)
                     },

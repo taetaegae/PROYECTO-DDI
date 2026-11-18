@@ -70,6 +70,36 @@ class ProgressRepository(
                 .sortedBy { it.isCompleted }
         }
 
+    /**
+     * Modo demo: deja al jugador a [DEMO_XP_BEFORE_LEVEL_UP] XP del siguiente nivel.
+     *
+     * Como la XP se deriva del historial, agrega un registro de ajuste fechado en 1970 y con un
+     * id de misión que no existe; así no cambia la racha ni las misiones de hoy.
+     *
+     * @return el nivel al que subirá el jugador con la siguiente misión.
+     */
+    suspend fun prepareDemoLevelUp(): Int = completeLock.withLock {
+        val totalXp = completionDao.getAll().sumOf { it.xpEarned }
+        var nextLevel = XpEngine.progress(totalXp).level + 1
+        // Si ya le falta menos que eso, se apunta al nivel siguiente.
+        if (XpEngine.totalXpForLevel(nextLevel) - totalXp < DEMO_XP_BEFORE_LEVEL_UP) nextLevel++
+        val adjustment = XpEngine.totalXpForLevel(nextLevel) - DEMO_XP_BEFORE_LEVEL_UP - totalXp
+        if (adjustment > 0) {
+            completionDao.insert(
+                Completion(
+                    id = UUID.randomUUID().toString(),
+                    missionId = DEMO_ADJUSTMENT_MISSION_ID,
+                    completedAt = 0,
+                    xpEarned = adjustment,
+                    coinsEarned = 0,
+                    source = CompletionSource.PHONE,
+                    sensorVerified = false,
+                ).toEntity(),
+            )
+        }
+        nextLevel
+    }
+
     suspend fun completeMission(
         missionId: String,
         source: CompletionSource,
@@ -116,3 +146,9 @@ class ProgressRepository(
         )
     }
 }
+
+/** XP que le falta al jugador para subir de nivel después de preparar la demo. */
+const val DEMO_XP_BEFORE_LEVEL_UP = 10
+
+/** Id de misión de los registros de ajuste del modo demo. No corresponde a ninguna misión real. */
+const val DEMO_ADJUSTMENT_MISSION_ID = "demo-ajuste"
