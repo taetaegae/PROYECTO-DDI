@@ -94,6 +94,38 @@
     <string name="demo_samples_loaded">Se cargaron 3 misiones de ejemplo.</string>
     <string name="demo_sync_sent">Se volvió a enviar el estado al reloj.</string>
     <string name="demo_mission_walk">Caminar 20 min</string>
+    <string name="demo_reset_progress">Reiniciar progreso</string>
+    <string name="demo_reset_title">¿Reiniciar el progreso?</string>
+    <string name="demo_reset_message">Se borra todo el historial: XP, monedas, racha e insignias. Las misiones se conservan. No se puede deshacer.</string>
+    <string name="demo_reset_confirm">Reiniciar</string>
+    <string name="demo_progress_reset">Se reinició el progreso. La próxima misión desbloquea Primer paso.</string>
+    <string name="action_cancel">Cancelar</string>
+
+    <!-- Insignias (T5) -->
+    <string name="badges_progress_format">%1$d de %2$d desbloqueadas</string>
+    <string name="badge_unlocked">Desbloqueada</string>
+    <string name="badge_locked">Bloqueada</string>
+    <string name="badge_unlocked_snackbar">¡Nueva insignia: %1$s!</string>
+    <string name="badge_first_step">Primer paso</string>
+    <string name="badge_first_step_condition">Completa tu primera misión.</string>
+    <string name="badge_streak_7">Constante</string>
+    <string name="badge_streak_7_condition">Mantén una racha de 7 días.</string>
+    <string name="badge_streak_30">Imparable</string>
+    <string name="badge_streak_30_condition">Mantén una racha de 30 días.</string>
+    <string name="badge_early_bird">Madrugador</string>
+    <string name="badge_early_bird_condition">Completa una misión antes de las 8:00.</string>
+    <string name="badge_scholar">Erudito</string>
+    <string name="badge_scholar_condition">Acumula 10 horas de estudio con el temporizador.</string>
+    <string name="badge_athlete">Atleta</string>
+    <string name="badge_athlete_condition">Completa 10 misiones de ejercicio.</string>
+    <string name="badge_epic_quest">Hazaña épica</string>
+    <string name="badge_epic_quest_condition">Completa una misión épica.</string>
+    <string name="badge_level_5">Aventurero</string>
+    <string name="badge_level_5_condition">Llega al nivel 5.</string>
+    <string name="badge_level_10">Veterano</string>
+    <string name="badge_level_10_condition">Llega al nivel 10.</string>
+    <string name="badge_treat_yourself">Me lo merezco</string>
+    <string name="badge_treat_yourself_condition">Canjea tu primera recompensa.</string>
     <string name="demo_mission_read">Leer 10 páginas</string>
     <string name="demo_mission_draw">Dibujar un boceto</string>
 

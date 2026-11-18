@@ -9,12 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -48,6 +53,7 @@ fun SettingsScreen(
         onPrepareLevelUp = viewModel::prepareLevelUp,
         onLoadSamples = viewModel::loadSampleMissions,
         onForceSync = viewModel::forceSync,
+        onResetProgress = viewModel::resetProgress,
         modifier = modifier,
     )
 }
@@ -59,8 +65,26 @@ fun DemoModeContent(
     onPrepareLevelUp: () -> Unit,
     onLoadSamples: () -> Unit,
     onForceSync: () -> Unit,
+    onResetProgress: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var confirmReset by remember { mutableStateOf(false) }
+    if (confirmReset) {
+        AlertDialog(
+            onDismissRequest = { confirmReset = false },
+            title = { Text(stringResource(R.string.demo_reset_title)) },
+            text = { Text(stringResource(R.string.demo_reset_message)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    confirmReset = false
+                    onResetProgress()
+                }) { Text(stringResource(R.string.demo_reset_confirm)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmReset = false }) { Text(stringResource(R.string.action_cancel)) }
+            },
+        )
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -102,10 +126,15 @@ fun DemoModeContent(
         OutlinedButton(onClick = onForceSync, modifier = Modifier.fillMaxWidth()) {
             Text(stringResource(R.string.demo_force_sync))
         }
+        // Al final y con confirmación, porque borra el historial.
+        OutlinedButton(onClick = { confirmReset = true }, modifier = Modifier.fillMaxWidth()) {
+            Text(stringResource(R.string.demo_reset_progress), color = MaterialTheme.colorScheme.error)
+        }
         val message = when (val current = uiState.message) {
             is DemoMessage.LevelUpReady -> stringResource(R.string.demo_level_up_ready, current.nextLevel)
             DemoMessage.SamplesLoaded -> stringResource(R.string.demo_samples_loaded)
             DemoMessage.SyncSent -> stringResource(R.string.demo_sync_sent)
+            DemoMessage.ProgressReset -> stringResource(R.string.demo_progress_reset)
             null -> null
         }
         if (message != null) {
@@ -124,6 +153,7 @@ private fun DemoModeContentPreview() {
             onPrepareLevelUp = {},
             onLoadSamples = {},
             onForceSync = {},
+            onResetProgress = {},
         )
     }
 }

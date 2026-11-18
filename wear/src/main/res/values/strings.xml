@@ -46,6 +46,27 @@
     <string name="action_resume">Reanudar</string>
     <string name="action_cancel">Cancelar</string>
 
+    <!-- Tile -->
+    <string name="tile_label">LevelUp</string>
+    <string name="tile_level_format">Nivel %1$d · %2$s</string>
+    <string name="tile_next_label">Siguiente misión</string>
+    <string name="tile_all_done">¡Todo listo por hoy!</string>
+    <string name="tile_empty">Crea misiones en el teléfono</string>
+
+    <!-- Insignias -->
+    <string name="badge_unlocked_label">¡INSIGNIA NUEVA!</string>
+    <string name="badge_unlocked_description">Nueva insignia: %1$s</string>
+    <string name="badge_first_step">Primer paso</string>
+    <string name="badge_streak_7">Constante</string>
+    <string name="badge_streak_30">Imparable</string>
+    <string name="badge_early_bird">Madrugador</string>
+    <string name="badge_scholar">Erudito</string>
+    <string name="badge_athlete">Atleta</string>
+    <string name="badge_epic_quest">Hazaña épica</string>
+    <string name="badge_level_5">Aventurero</string>
+    <string name="badge_level_10">Veterano</string>
+    <string name="badge_treat_yourself">Me lo merezco</string>
+
     <!-- Subida de nivel -->
     <string name="level_up_label">¡SUBISTE DE NIVEL!</string>
     <string name="level_up_description">Subiste al nivel %1$d</string>

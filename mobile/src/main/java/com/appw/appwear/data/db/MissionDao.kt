@@ -11,6 +11,13 @@ interface MissionDao {
     @Query("SELECT * FROM missions WHERE isArchived = 0 ORDER BY createdAt DESC")
     fun observeActive(): Flow<List<MissionEntity>>
 
+    /** Todas las misiones, también las archivadas: las insignias cuentan su historial. */
+    @Query("SELECT * FROM missions")
+    fun observeAll(): Flow<List<MissionEntity>>
+
+    @Query("SELECT * FROM missions")
+    suspend fun getAll(): List<MissionEntity>
+
     @Query("SELECT * FROM missions WHERE id = :id")
     suspend fun getById(id: String): MissionEntity?
 

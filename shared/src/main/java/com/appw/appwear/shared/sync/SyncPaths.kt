@@ -15,5 +15,8 @@ object SyncPaths {
     /** Reloj → teléfono: una misión completada en el reloj. Cada evento lleva su propio id al final. */
     const val COMPLETION_PREFIX = "/levelup/events/completion/"
 
+    /** Teléfono → reloj (MessageClient): insignia recién desbloqueada, para celebrarla. Puede perderse sin afectar los datos. */
+    const val BADGE_NOTIFY = "/levelup/notify/badge"
+
     fun completion(eventId: String): String = COMPLETION_PREFIX + eventId
 }

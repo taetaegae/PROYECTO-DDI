@@ -4,7 +4,10 @@ import com.appw.appwear.data.db.CompletionDao
 import com.appw.appwear.data.db.MissionDao
 import com.appw.appwear.data.db.toDomain
 import com.appw.appwear.data.db.toEntity
+import com.appw.appwear.shared.engine.Badge
+import com.appw.appwear.shared.engine.BadgeEngine
 import com.appw.appwear.shared.engine.MissionSchedule
+import com.appw.appwear.shared.engine.PlayerStats
 import com.appw.appwear.shared.engine.StreakEngine
 import com.appw.appwear.shared.engine.XpEngine
 import com.appw.appwear.shared.model.Completion
@@ -23,7 +26,8 @@ import java.util.UUID
 
 /** Resultado de intentar completar una misión. */
 sealed interface CompletionOutcome {
-    data class Completed(val reward: CompletionReward) : CompletionOutcome
+    /** [newBadges]: insignias que se desbloquearon con esta misión. */
+    data class Completed(val reward: CompletionReward, val newBadges: List<Badge> = emptyList()) : CompletionOutcome
     data object AlreadyCompleted : CompletionOutcome
     data object MissionNotFound : CompletionOutcome
 }
@@ -48,6 +52,14 @@ class ProgressRepository(
             coins = completions.sumOf { it.coinsEarned },
         )
     }
+
+    /** Insignias desbloqueadas. Se derivan del historial igual que la XP y la racha. */
+    val badges: Flow<Set<Badge>> =
+        combine(missionDao.observeAll(), completionDao.observeAll()) { missions, completions ->
+            BadgeEngine.unlocked(
+                PlayerStats.from(completions.map { it.toDomain() }, missions.associate { it.id to it.toDomain() }, clock.zone),
+            )
+        }
 
     /** Misiones de hoy; las pendientes primero y las completadas al final. */
     val todayMissions: Flow<List<TodayMission>> =
@@ -100,6 +112,9 @@ class ProgressRepository(
         nextLevel
     }
 
+    /** Modo demo: borra el historial (XP, monedas, racha e insignias). Las misiones se conservan. */
+    suspend fun resetDemoProgress() = completeLock.withLock { completionDao.deleteAll() }
+
     suspend fun completeMission(
         missionId: String,
         source: CompletionSource,
@@ -123,16 +138,23 @@ class ProgressRepository(
         val streak = StreakEngine.currentStreak(completions, day, clock.zone)
         val xp = XpEngine.xpEarned(mission.difficulty, streak, sensorVerified)
         val coins = XpEngine.coinsFor(xp)
-        completionDao.insert(
-            Completion(
-                id = completionId,
-                missionId = missionId,
-                completedAt = completedAt,
-                xpEarned = xp,
-                coinsEarned = coins,
-                source = source,
-                sensorVerified = sensorVerified,
-            ).toEntity(),
+        val completion = Completion(
+            id = completionId,
+            missionId = missionId,
+            completedAt = completedAt,
+            xpEarned = xp,
+            coinsEarned = coins,
+            source = source,
+            sensorVerified = sensorVerified,
+        )
+        completionDao.insert(completion.toEntity())
+
+        // Insignias antes y después de esta misión; la diferencia es lo que se acaba de ganar.
+        val missionsById = missionDao.getAll().associate { it.id to it.toDomain() }
+        val badgesBefore = BadgeEngine.unlocked(PlayerStats.from(completions, missionsById, clock.zone))
+        val newBadges = BadgeEngine.newlyUnlocked(
+            PlayerStats.from(completions + completion, missionsById, clock.zone),
+            badgesBefore,
         )
 
         val totalXpBefore = completions.sumOf { it.xpEarned }
@@ -143,6 +165,7 @@ class ProgressRepository(
                 levelBefore = XpEngine.progress(totalXpBefore).level,
                 levelAfter = XpEngine.progress(totalXpBefore + xp).level,
             ),
+            newBadges,
         )
     }
 }

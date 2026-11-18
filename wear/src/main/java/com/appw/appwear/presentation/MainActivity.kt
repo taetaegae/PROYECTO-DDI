@@ -10,8 +10,12 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,10 +24,13 @@ import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.appw.appwear.feedback.Haptics
+import com.appw.appwear.notify.BadgeInbox
+import androidx.navigation.NavController
 import com.appw.appwear.presentation.home.HomeScreen
 import com.appw.appwear.presentation.missions.MissionDetailScreen
 import com.appw.appwear.presentation.missions.MissionsScreen
 import com.appw.appwear.presentation.navigation.WearDestination
+import com.appw.appwear.presentation.reward.BadgeUnlockedScreen
 import com.appw.appwear.presentation.reward.LevelUpScreen
 import com.appw.appwear.presentation.reward.MissionDoneScreen
 import com.appw.appwear.presentation.theme.LevelUpTheme
@@ -46,6 +53,7 @@ fun WearApp(viewModel: WatchViewModel = viewModel(factory = WatchViewModel.Facto
     val timer by viewModel.timer.collectAsStateWithLifecycle()
     val timerResult by viewModel.timerResult.collectAsStateWithLifecycle()
     val demoMode by viewModel.demoMode.collectAsStateWithLifecycle()
+    val pendingBadges by BadgeInbox.pending.collectAsStateWithLifecycle()
     val context = LocalContext.current
     // El temporizador funciona aunque se niegue el permiso; solo no se ve su notificación.
     val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
@@ -58,6 +66,25 @@ fun WearApp(viewModel: WatchViewModel = viewModel(factory = WatchViewModel.Facto
             LaunchedEffect(Unit) {
                 if (viewModel.timer.value != null && navController.currentDestination?.route != WearDestination.TIMER) {
                     navController.navigate(WearDestination.TIMER)
+                }
+            }
+
+            // Ruta actual, para no interrumpir el temporizador ni otra celebración.
+            var currentRoute by remember { mutableStateOf<String?>(null) }
+            DisposableEffect(navController) {
+                val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+                    currentRoute = destination.route
+                }
+                navController.addOnDestinationChangedListener(listener)
+                onDispose { navController.removeOnDestinationChangedListener(listener) }
+            }
+
+            // Insignia nueva avisada por el teléfono: se celebra al volver a una pantalla tranquila,
+            // por ejemplo después de R5 y R6.
+            val nextBadge = pendingBadges.firstOrNull()
+            LaunchedEffect(nextBadge, currentRoute) {
+                if (nextBadge != null && currentRoute in CALM_ROUTES) {
+                    navController.navigate(WearDestination.BADGE)
                 }
             }
 
@@ -141,6 +168,20 @@ fun WearApp(viewModel: WatchViewModel = viewModel(factory = WatchViewModel.Facto
                         },
                     )
                 }
+                composable(WearDestination.BADGE) {
+                    // Se fija al entrar, para que no cambie mientras la pantalla se cierra.
+                    val badge = remember { BadgeInbox.pending.value.firstOrNull() }
+                    LaunchedEffect(Unit) { Haptics.badgeUnlocked(context) }
+                    if (badge != null) {
+                        BadgeUnlockedScreen(
+                            badge = badge,
+                            onDone = {
+                                BadgeInbox.consume(badge)
+                                navController.popBackStack()
+                            },
+                        )
+                    }
+                }
                 composable(WearDestination.LEVEL_UP) {
                     LaunchedEffect(Unit) { Haptics.levelUp(context) }
                     LevelUpScreen(
@@ -157,3 +198,6 @@ fun WearApp(viewModel: WatchViewModel = viewModel(factory = WatchViewModel.Facto
 private fun needsNotificationPermission(context: Context): Boolean =
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
         context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+
+/** Pantallas donde se puede mostrar la celebración de una insignia sin interrumpir nada. */
+private val CALM_ROUTES = setOf(WearDestination.HOME, WearDestination.MISSIONS, WearDestination.MISSION_DETAIL)

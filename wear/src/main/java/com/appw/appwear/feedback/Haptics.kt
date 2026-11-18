@@ -24,6 +24,11 @@ object Haptics {
         )
     }
 
+    /** Insignia nueva: dos pulsos y uno largo, distinto al de subir de nivel. */
+    fun badgeUnlocked(context: Context) {
+        vibrator(context).vibrate(VibrationEffect.createWaveform(longArrayOf(0, 120, 90, 120, 90, 300), -1))
+    }
+
     /**
      * R4 · Tres pulsos al terminar el temporizador.
      *

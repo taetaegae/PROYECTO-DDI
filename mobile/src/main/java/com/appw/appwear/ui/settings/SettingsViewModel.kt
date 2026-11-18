@@ -30,6 +30,7 @@ sealed interface DemoMessage {
     data class LevelUpReady(val nextLevel: Int) : DemoMessage
     data object SamplesLoaded : DemoMessage
     data object SyncSent : DemoMessage
+    data object ProgressReset : DemoMessage
 }
 
 data class SettingsUiState(
@@ -83,6 +84,13 @@ class SettingsViewModel(
                 Mission("demo-draw", sampleTitles.draw, category = Category.CREATIVE, difficulty = Difficulty.HARD, recurrence = Recurrence.WEEKLY, createdAt = now),
             ).forEach { missionRepository.save(it) }
             message.value = DemoMessage.SamplesLoaded
+        }
+    }
+
+    fun resetProgress() {
+        viewModelScope.launch {
+            progressRepository.resetDemoProgress()
+            message.value = DemoMessage.ProgressReset
         }
     }
 
