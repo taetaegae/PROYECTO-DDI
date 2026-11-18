@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.ui.tooling)
     implementation(libs.play.services.wearable)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     androidTestImplementation(platform(libs.androidx.compose.bom))

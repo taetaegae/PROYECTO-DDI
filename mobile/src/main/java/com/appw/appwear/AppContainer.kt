@@ -4,6 +4,8 @@ import android.content.Context
 import com.appw.appwear.data.db.AppDatabase
 import com.appw.appwear.data.repository.MissionRepository
 import com.appw.appwear.data.repository.ProgressRepository
+import com.appw.appwear.sync.StatePublisher
+import com.google.android.gms.wearable.Wearable
 import java.time.Clock
 
 /** Dependencias de la app. Se crean una sola vez en [LevelUpApp]. */
@@ -17,4 +19,6 @@ class AppContainer(context: Context) {
     val missionRepository = MissionRepository(database.missionDao())
 
     val progressRepository = ProgressRepository(database.missionDao(), database.completionDao(), clock)
+
+    val statePublisher = StatePublisher(Wearable.getDataClient(context), progressRepository)
 }

@@ -74,28 +74,30 @@ class ProgressRepository(
         missionId: String,
         source: CompletionSource,
         sensorVerified: Boolean = false,
+        completionId: String = UUID.randomUUID().toString(),
+        completedAt: Long = clock.millis(),
     ): CompletionOutcome = completeLock.withLock {
         val mission = missionDao.getById(missionId)?.toDomain()
             ?: return CompletionOutcome.MissionNotFound
 
         val completions = completionDao.getAll().map { it.toDomain() }
-        val today = LocalDate.now(clock)
+        val day = StreakEngine.localDateOf(completedAt, clock.zone)
         val missionDates = completions
             .filter { it.missionId == missionId }
             .map { StreakEngine.localDateOf(it.completedAt, clock.zone) }
-        if (MissionSchedule.isCompleted(mission.recurrence, missionDates, today)) {
+        if (MissionSchedule.isCompleted(mission.recurrence, missionDates, day)) {
             return CompletionOutcome.AlreadyCompleted
         }
 
         // La racha se mide antes de registrar esta misión, como indica XpEngine.xpEarned.
-        val streak = StreakEngine.currentStreak(completions, today, clock.zone)
+        val streak = StreakEngine.currentStreak(completions, day, clock.zone)
         val xp = XpEngine.xpEarned(mission.difficulty, streak, sensorVerified)
         val coins = XpEngine.coinsFor(xp)
         completionDao.insert(
             Completion(
-                id = UUID.randomUUID().toString(),
+                id = completionId,
                 missionId = missionId,
-                completedAt = clock.millis(),
+                completedAt = completedAt,
                 xpEarned = xp,
                 coinsEarned = coins,
                 source = source,
