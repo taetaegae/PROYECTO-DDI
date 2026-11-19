@@ -72,5 +72,5 @@ Guion de la demo: en el teléfono se crea "Estudiar 25 min" (dificultad Media, "
 ## Integrantes 
 
 - Bazaldua Hernandez Juan Miguel 
-- Vasquez Flores Andrea
+- Vazquez Flores Andrea
 - Torres Luna Jorge Humberto
